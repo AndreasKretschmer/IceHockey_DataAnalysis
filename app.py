@@ -1,8 +1,9 @@
 import pandas as pd
 from dash import Dash, html, dcc, callback, Output, Input, dash_table
 import plotly.express as px
+import data.data as data
 
-data = pd.read_csv("data\game.csv").query("home_team_id==16").assign(Date=lambda data: pd.to_datetime(data["date_time_GMT"], format="%Y-%m-%dT%H:%M:%SZ")).sort_values(by="Date")
+data = pd.read_csv("data\\game.csv").query("home_team_id==16").assign(Date=lambda data: pd.to_datetime(data["date_time_GMT"], format="%Y-%m-%dT%H:%M:%SZ")).sort_values(by="Date")
 data['season'] = data['season'].astype(str)
 season_outcomes = data.groupby(["season", "outcome"]).size().unstack(fill_value=0).reset_index().melt(id_vars='season', var_name='outcome', value_name='count')
 app = Dash(__name__)
