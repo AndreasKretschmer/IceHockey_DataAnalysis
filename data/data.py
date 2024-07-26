@@ -1,7 +1,6 @@
-import urllib.request
 import pandas as pd
-import urllib
 
+##import all data into dataframes
 games = pd.read_csv("data\\game.csv")
 seasons = sorted(games["season"].unique())
 
@@ -19,13 +18,8 @@ game_plays_player = pd.read_csv("data\\game_plays_players.csv")
 game_shifts = pd.read_csv("data\\game_shifts.csv")
 game_scratches = pd.read_csv("data\\game_scratches.csv")
 
+shots = game_plays.loc[game_plays["event"].isin(["Goal","Shot", "Blocked Shot", "Missed Shot"])]
+hits = game_plays.loc[game_plays["event"].isin(["Hit","Shot", "Blocked Shot", "Missed Shot"])]
+
 game_officials = pd.read_csv("data\\game_officials.csv")
 officials = game_officials["official_name"].unique()
-
-##get Team Logos
-for index, row in teams.iterrows():
-    url = urllib.parse.urljoin("https://assets.nhle.com/logos/nhl/svg/", row["abbreviation"] + "_light.svg")
-    try:
-        request = urllib.request.urlretrieve(url, "assets\\" + row["abbreviation"] + "_light.svg")
-    except:
-        print(row["shortName"])
