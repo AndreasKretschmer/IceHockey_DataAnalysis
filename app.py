@@ -1,32 +1,32 @@
 import pandas as pd
-from dash import Dash, html, dcc, callback, Output, Input, dash_table
+from dash import Dash, html, dcc, callback, Output, Input, dash_table, page_container
 import plotly.express as px
-import data.data as data
+import dash_bootstrap_components as dbc
+import data as app_data
+from assets.footer import _footer
+from assets.nav import _nav
 
-data = pd.read_csv("data\\game.csv").query("home_team_id==16").assign(Date=lambda data: pd.to_datetime(data["date_time_GMT"], format="%Y-%m-%dT%H:%M:%SZ")).sort_values(by="Date")
-data['season'] = data['season'].astype(str)
-season_outcomes = data.groupby(["season", "outcome"]).size().unstack(fill_value=0).reset_index().melt(id_vars='season', var_name='outcome', value_name='count')
-app = Dash(__name__)
+app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME],
+	   suppress_callback_exceptions=True, prevent_initial_callbacks=True)
+server = app.server
 
-fig = px.bar(season_outcomes, x='season', y='count', color='outcome', barmode='group',
-             labels={'season': 'Season', 'count': 'Count', 'outcome': 'Outcome'},
-             title='Outcome Counts per Season')
-
-app.layout = html.Div(
-        children=[
-            html.H1(children="Ice Hockey Data Analysis"),
-            html.P(
-                children=(
-                    "Analyzing Data of NHL Seasons from ---- to ----"
-                ),
-            ),
-            dash_table.DataTable(data.to_dict('records'), [{"name": i, "id": i} for i in data.columns]),
-            dcc.Graph(
-                id='Season Outcomes',
-                figure=fig,
-            ),
-        ]
-    )
+# App Layout
+app.layout = dbc.Container([
+	
+	dbc.Row([
+        dbc.Col([_nav], width = 2),
+        dbc.Col([
+            dbc.Row([page_container])
+	    ], width = 10),
+    ]),
+    dbc.Row([
+        dbc.Col([], width = 2),
+        dbc.Col([
+            dbc.Row([_footer])
+	    ], width = 10),
+    ]),
+     dcc.Store(id='browser-memo', data=dict(), storage_type='session')
+], fluid=True)
 
 if __name__ == "__main__":
     app.run_server(debug=True)
