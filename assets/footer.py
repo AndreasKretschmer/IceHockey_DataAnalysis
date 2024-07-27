@@ -13,10 +13,10 @@ _footer = html.Div([
 	        dbc.Col([
                 html.Ul([
                     html.Li([
-                        html.A([ html.I(className="github link-me")], href="https://github.com/AndreasKretschmer/IceHockey_DataAnalysis"),
-                        html.A([ html.I(className="linkedin link-me")], href="https://www.linkedin.com/in/andreas-kretschmer-61ba76190/"),
+                        html.A([ html.I(className='fa-brands fa-github me-3 fa-1x')], href='https://github.com/AndreasKretschmer/IceHockey_DataAnalysis'),
+                        html.A([ html.I(className='fa-brands fa-linkedin me-3 fa-1x')], href='https://www.linkedin.com/in/andreas-kretschmer-61ba76190/'),
                     ])
-                ], className='links-me')
+                ], className='list-unstyled d-flex justify-content-center justify-content-md-start')
             ], width = 2)
         ])
     ], fluid=True)
