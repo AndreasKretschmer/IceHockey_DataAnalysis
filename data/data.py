@@ -19,7 +19,7 @@ game_plays_player = pd.read_csv('data\\game_plays_players.csv')
 game_shifts = pd.read_csv('data\\game_shifts.csv')
 game_scratches = pd.read_csv('data\\game_scratches.csv')
 
-shots = game_plays.loc[game_plays['event'].isin(['Goal','Shot', 'Blocked Shot', 'Missed Shot'])]
+shots = pd.read_csv('data\\shots.csv')
 hits = game_plays.loc[game_plays['event'].isin(['Hit','Shot', 'Blocked Shot', 'Missed Shot'])]
 
 game_officials = pd.read_csv('data\\game_officials.csv')
